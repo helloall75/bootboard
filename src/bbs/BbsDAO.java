@@ -82,11 +82,11 @@ public class BbsDAO {
 		return -1;	//데이터베이스 오류 코드
 	}
 	public Vector<Bbs> getList(int pageNumber) {
-		String sql = "SELECT * FROM bbs WHERE bbsId < ? AND bbsAvailable = 1 ORDER BY bbsId DESC LIMIT 10";
+		String sql = "SELECT * FROM bbs WHERE bbsId < ? AND bbsAvailable = 1 ORDER BY bbsId DESC LIMIT " + getPageRows();
 		Vector<Bbs> list = new Vector<Bbs>();
 		try {
 			PreparedStatement pstmt = conn.prepareStatement(sql);
-			pstmt.setInt(1, getNext() - (pageNumber - 1) * 10);
+			pstmt.setInt(1, getNext() - (pageNumber - 1) * getPageRows());
 			rs = pstmt.executeQuery();
 			while(rs.next()) {
 				Bbs bbs = new Bbs();
@@ -123,7 +123,7 @@ public class BbsDAO {
 		String sql = "SELECT * FROM bbs WHERE bbsId < ? AND bbsAvailable = 1";
 		try {
 			PreparedStatement pstmt = conn.prepareStatement(sql);
-			pstmt.setInt(1, getNext() - (pageNumber - 1) * 10);
+			pstmt.setInt(1, getNext() - (pageNumber - 1) * getPageRows());
 			rs = pstmt.executeQuery();
 			while(rs.next()) {
 				return false;
