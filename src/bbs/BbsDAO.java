@@ -119,19 +119,19 @@ public class BbsDAO {
 		return -1;
 	}
 	
-	public boolean nextPage(int pageNumber) {
+	public boolean nextPage(int pageNumber) {	//리턴값의 true, false를 변경
 		String sql = "SELECT * FROM bbs WHERE bbsId < ? AND bbsAvailable = 1";
 		try {
 			PreparedStatement pstmt = conn.prepareStatement(sql);
-			pstmt.setInt(1, getNext() - (pageNumber - 2) * 10);
+			pstmt.setInt(1, getNext() - (pageNumber - 1) * 10);
 			rs = pstmt.executeQuery();
 			while(rs.next()) {
-				return true;
+				return false;
 			}
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
-		return false;
+		return true;
 	}
 	public Bbs getBbs(int bbsId) {
 		String sql = "SELECT * FROM bbs WHERE bbsId = ?";
